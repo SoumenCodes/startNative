@@ -19,11 +19,11 @@ const YupPassword = () => {
 
   const [upperCase, setUpperCase] = useState(false)
   const [lowerCase, setLowerCase] = useState(true)
-  const [number, setNumber] = useState(false)
+  const [numbers, setNumber] = useState(false)
   const [symbols, setSymbols] = useState(false)
 
   function generatePasswordString(passwordLenght: number) {
-    let characterList = ''
+    let characterList = '';
 
     const upperCaseChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     const lowerCaseChars = 'abcdefghijklmnopqrstuvwxyz'
@@ -32,7 +32,7 @@ const YupPassword = () => {
 
     if (lowerCase) { characterList += lowerCaseChars }
     if (upperCaseChars) { characterList += upperCaseChars }
-    if (number) { characterList += numberChars }
+    if (numbers) { characterList += numberChars }
     if (symbols) { characterList += symbols }
 
     const passwordResult = createPassword(characterList, passwordLenght)
@@ -45,7 +45,7 @@ const YupPassword = () => {
 
   function createPassword(Characters: string, passwordLenght: number) {
     let reasult = ''
-    for (let i = 1; i < passwordLenght; i++) {
+    for (let i = 0; i < passwordLenght; i++) {
       const characterIndex = Math.round(Math.random() * Characters.length)
       reasult += Characters.charAt(characterIndex)
     }
@@ -71,7 +71,7 @@ const YupPassword = () => {
           <Formik
             initialValues={{ passwordLenght: '' }}
             validationSchema={PasswordSchema}
-            onSubmit={(values) => {
+            onSubmit={values => {
               console.log(values, 'onSubmit fire values')
               generatePasswordString(Number(values.passwordLenght))
             }}
@@ -130,17 +130,18 @@ const YupPassword = () => {
                 <View style={styles.inputWrapper}><Text>Include number</Text>
                   <BouncyCheckbox
                     disableBuiltInState
-                    isChecked={number}
-                    onPress={() => setNumber(!number)}
+                    isChecked={numbers}
+                    onPress={() => setNumber(!numbers)}
                     fillColor='green'
                   />
                 </View>
 
-                <View style={styles.inputWrapper}>
+                <View style={styles.formActions}>
                   <TouchableOpacity
                     disabled={isValid}
                     style={styles.primaryBtn}
-                    onPress={() => handleSubmit()}
+                    onPress={() => handleSubmit()
+                    }
                   >
                     <Text>GeneratePassword</Text>
                   </TouchableOpacity>
